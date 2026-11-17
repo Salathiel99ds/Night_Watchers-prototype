@@ -1,4 +1,5 @@
 import pygame 
+from game_over import TelaMorte
 
 class Jogo:
     def __init__(self):
@@ -9,27 +10,46 @@ class Jogo:
         self.relogio = pygame.time.Clock()
         self.fps = 144
         self.rodando = True
+        self.estado = "inicio"
 
         self.fonte = pygame.font.SysFont("Arial", 36)
-    
+        self.tela_morte = TelaMorte()
+
+
     def executar(self):
         while self.rodando:
-          for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-              self.rodando = False
-            elif evento.type == pygame.KEYDOWN:
-              if evento.key == pygame.K_ESCAPE:
-                self.rodando = False
-          
-          self.tela.fill((15, 18, 28))
+            for evento in pygame.event.get():
+                if evento.type == pygame.QUIT:
+                    self.rodando = False
 
-          titulo = self.fonte.render("NIGHT WATCHERS", True, (235, 235, 235)
-          )
-          self.tela.blit (titulo, (300, 230))
+                elif evento.type == pygame.KEYDOWN:
+                    if self.estado == "game_over":
+                        acao = self.tela_morte.processar_evento(evento)
 
-          pygame.display.flip()
-          self.relogio.tick(self.fps)
-        
+                        if acao == "reiniciar":
+                            self.estado = "inicio"
+                        elif acao == "sair":
+                            self.rodando = False
+
+                    elif evento.key == pygame.K_g:
+                        self.estado = "game_over"
+
+                    elif evento.key == pygame.K_ESCAPE:
+                        self.rodando = False
+
+            if self.estado == "game_over":
+                self.tela_morte.desenhar(self.tela)
+            else:
+                self.tela.fill((15, 18, 28))
+
+                titulo = self.fonte.render(
+                    "NIGHT WATCHERS", True, (235, 235, 235)
+                )
+                self.tela.blit(titulo, (300, 230))
+
+            pygame.display.flip()
+            self.relogio.tick(self.fps)
+
         pygame.quit()
 
 if __name__ == "__main__":
