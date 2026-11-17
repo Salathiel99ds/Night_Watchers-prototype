@@ -1,5 +1,6 @@
 import pygame 
 from game_over import TelaMorte
+from jogador import Jogador
 
 class Jogo:
     def __init__(self):
@@ -14,10 +15,12 @@ class Jogo:
 
         self.fonte = pygame.font.SysFont("Arial", 36)
         self.tela_morte = TelaMorte()
+        self.jogador = Jogador(464, 254)
 
 
     def executar(self):
         while self.rodando:
+            dt = self.relogio.tick(self.fps)/1000
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
                     self.rodando = False
@@ -40,15 +43,19 @@ class Jogo:
             if self.estado == "game_over":
                 self.tela_morte.desenhar(self.tela)
             else:
+                teclas = pygame.key.get_pressed()
+                self.jogador.atualizar(teclas, dt)
+
                 self.tela.fill((15, 18, 28))
 
                 titulo = self.fonte.render(
                     "NIGHT WATCHERS", True, (235, 235, 235)
                 )
+
                 self.tela.blit(titulo, (300, 230))
+                self.jogador.desenhar(self.tela)
 
             pygame.display.flip()
-            self.relogio.tick(self.fps)
 
         pygame.quit()
 
