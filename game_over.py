@@ -46,17 +46,16 @@ class TelaMorte:
     sair,
     sair.get_rect(center=(largura // 2, altura // 2 + 140))
     )
-
-def processar_evento(self, evento):
-  if evento.type == pygame.KEYDOWN:
-    if evento.key == pygame.K_r:
-      return "reiniciar"
-      
-    elif evento.key == pygame.K_ESCAPE:
-      return "sair"
-
-return "" 
     
+  def processar_evento(self, evento):
+    if evento.type == pygame.KEYDOWN:
+      if evento.key == pygame.K_r:
+        return "reiniciar"
+      
+      elif evento.key == pygame.K_ESCAPE:
+        return "sair"
+    
+    return ""
     
     
     
