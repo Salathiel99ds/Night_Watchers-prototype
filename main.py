@@ -16,6 +16,7 @@ class Jogo:
         self.fonte = pygame.font.SysFont("Arial", 36)
         self.tela_morte = TelaMorte()
         self.jogador = Jogador(464, 254)
+        self.obstaculos = [pygame.Rect(320, 160, 40, 240), pygame.Rect(620, 300, 180, 30)]
 
 
     def executar(self):
@@ -44,10 +45,17 @@ class Jogo:
                 self.tela_morte.desenhar(self.tela)
             else:
                 teclas = pygame.key.get_pressed()
-                self.jogador.atualizar(teclas, dt)
+                self.jogador.atualizar(teclas, dt, self.obstaculos)
                 self.jogador.limitar_na_tela(*self.tela.get_size())
 
                 self.tela.fill((15, 18, 28))
+
+                for obstaculo in self.obstaculos:
+                  pygame.draw.rect(
+                    self.tela,
+                    (100, 110, 130),
+                    obstaculo
+                )
 
                 titulo = self.fonte.render(
                     "NIGHT WATCHERS", True, (235, 235, 235)
