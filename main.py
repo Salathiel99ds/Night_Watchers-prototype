@@ -1,6 +1,7 @@
 import pygame 
 from game_over import TelaMorte
 from jogador import Jogador
+from mapa import Mapa
 
 class Jogo:
     def __init__(self):
@@ -16,7 +17,8 @@ class Jogo:
         self.fonte = pygame.font.SysFont("Arial", 36)
         self.tela_morte = TelaMorte()
         self.jogador = Jogador(464, 254)
-        self.obstaculos = [pygame.Rect(320, 160, 40, 240), pygame.Rect(620, 300, 180, 30)]
+        self.mapa = Mapa()
+        self.obstaculos = self.mapa.obstaculos 
 
 
     def executar(self):
@@ -50,12 +52,7 @@ class Jogo:
 
                 self.tela.fill((15, 18, 28))
 
-                for obstaculo in self.obstaculos:
-                  pygame.draw.rect(
-                    self.tela,
-                    (100, 110, 130),
-                    obstaculo
-                )
+                self.mapa.desenhar(self.tela)
 
                 titulo = self.fonte.render(
                     "NIGHT WATCHERS", True, (235, 235, 235)
@@ -70,5 +67,5 @@ class Jogo:
 
 if __name__ == "__main__":
   jogo = Jogo()
-  jogo.executar()
+  jogo.executar() 
   
