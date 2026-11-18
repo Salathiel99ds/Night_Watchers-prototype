@@ -50,6 +50,22 @@ class Jogo:
                 self.jogador.atualizar(teclas, dt, self.obstaculos)
                 self.jogador.limitar_na_tela(*self.tela.get_size())
 
+                if self.mapa.nome == "exterior_cin":
+                    if self.jogador.posicao.x >= 928:
+                        self.mapa = Mapa("entrada_cin")
+                        self.obstaculos = self.mapa.obstaculos
+
+                        self.jogador.posicao.x = 16
+                        self.jogador.posicao.y = 254
+
+                elif self.mapa.nome == "entrada_cin":
+                    if self.jogador.posicao.x <= 0:
+                        self.mapa = Mapa("exterior_cin")
+                        self.obstaculos = self.mapa.obstaculos
+
+                        self.jogador.posicao.x = 880
+                        self.jogador.posicao.y = 254
+
                 self.tela.fill((15, 18, 28))
 
                 self.mapa.desenhar(self.tela)
