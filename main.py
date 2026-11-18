@@ -66,6 +66,23 @@ class Jogo:
                         self.jogador.posicao.x = 880
                         self.jogador.posicao.y = 254
 
+                    elif self.jogador.posicao.x >= 928:
+                        self.mapa = Mapa("hall_cin")
+                        self.obstaculos = self.mapa.obstaculos
+
+                        self.jogador.posicao.x = 16
+                        self.jogador.posicao.y = 254
+
+
+                elif self.mapa.nome == "hall_cin":
+                    if self.jogador.posicao.x >= 928:
+                        self.mapa = Mapa("hall_cin")
+                        self.obstaculos = self.mapa.obstaculos
+
+                        self.jogador.posicao.x = 880
+                        self.jogador.posicao.y = 254
+                
+
                 self.tela.fill((15, 18, 28))
 
                 self.mapa.desenhar(self.tela)
