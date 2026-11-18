@@ -45,6 +45,7 @@ class Jogo:
             else:
                 teclas = pygame.key.get_pressed()
                 self.jogador.atualizar(teclas, dt)
+                self.jogador.limitar_na_tela(*self.tela.get_size())
 
                 self.tela.fill((15, 18, 28))
 

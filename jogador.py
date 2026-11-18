@@ -27,6 +27,14 @@ class Jogador:
 
         self.posicao += movimento * self.velocidade * dt
 
+    def limitar_na_tela(self, largura, altura):
+        self.posicao.x = max(0, min(self.posicao.x, largura - self.tamanho)
+        )
+
+        self.posicao.y = max(0, min(self.posicao.y, altura - self.tamanho)
+        )
+        
+
     def desenhar(self, tela):
         retangulo = pygame.Rect(
             round(self.posicao.x),
