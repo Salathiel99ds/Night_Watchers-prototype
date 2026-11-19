@@ -47,7 +47,7 @@ class Mapa:
 
            pygame.draw.rect(
               tela, (110, 115, 122),
-              self.obstaculos[2]
+              self.obstaculos[1]
            )
 
            # Balcão da recepção
