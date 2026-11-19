@@ -29,11 +29,41 @@ class Mapa:
               pygame.Rect(0, 450, 960, 90),
               pygame.Rect(170, 110, 180, 65),
               pygame.Rect(620, 315, 50, 75)
-           ]
+         ]
 
+        elif self.nome == "jardim_interno":
+           # obstáculos do jardim
+           self.obstaculos = [
+              pygame.Rect(0, 0, 960, 90),
+              pygame.Rect(0, 450, 960, 90),
+              pygame.Rect(420, 230, 120, 60)
+         ]
 
     def desenhar(self, tela):
         tela.fill((185, 180, 169))
+
+        if self.nome == "jardim_interno":
+           # Piso do jardim
+           tela.fill((110, 145, 110))
+
+           # Limites do cenário
+           pygame.draw.rect(
+              tela, (95, 95, 95),
+              self.obstaculos[0]
+           )
+
+           pygame.draw.rect(
+              tela, (95, 95, 95),
+              self.obstaculos[1]
+           )
+
+           # Mesa de madeira
+           pygame.draw.rect(
+              tela, (125, 80, 45),
+              self.obstaculos[2]
+           )
+
+           return
 
         if self.nome == "hall_cin":
            #piso do hall
