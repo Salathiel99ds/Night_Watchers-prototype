@@ -20,9 +20,15 @@ class Jogo:
         self.mapa = Mapa()
         self.obstaculos = self.mapa.obstaculos
 
-        # coletáveis
+        # coleta do crachá
         self.tem_cracha = False
         self.cracha = pygame.Rect(520, 300, 24, 16)
+
+        # coleta do jornal
+        self.tem_jornal = False
+        self.jornal = pygame.Rect(100, 205, 28, 18)
+        self.mostrar_jornal_ate = 0
+        self.fonte_jornal = pygame.font.SysFont("Arial", 24)
 
 
     def executar(self):
@@ -54,19 +60,27 @@ class Jogo:
                 self.jogador.atualizar(teclas, dt, self.obstaculos)
                 self.jogador.limitar_na_tela(*self.tela.get_size())
 
-                # personagem coletando
+                jogador_rect = pygame.Rect(
+                    self.jogador.posicao.x,
+                    self.jogador.posicao.y,
+                    32, 32
+                )
+
+                # personagem coleta crachá
                 if self.mapa.nome == "exterior_cin" and not self.tem_cracha:
 
-                    jogador_rect = pygame.Rect(
-                        self.jogador.posicao.x,
-                        self.jogador.posicao.y,
-                        32, 32
-                    )
-
-                    if jogador_rect.colliderect(self.cracha):
+                   if jogador_rect.colliderect(self.cracha):
                         self.tem_cracha = True
                         print("Crachá de acesso adquirido!")
 
+                # personagem coleta jornal
+                if self.mapa.nome == "hall_cin" and not self.tem_jornal:
+                    if jogador_rect.colliderect(self.jornal):
+                        self.tem_jornal = True
+                        self.mostrar_jornal_ate = pygame.time.get_ticks() + 10000
+                        print("Jornal adquirido!")
+
+                # transição de mapas
                 if self.mapa.nome == "exterior_cin":
                     if self.jogador.posicao.x >= 928 and self.tem_cracha:
                         self.mapa = Mapa("entrada_cin")
@@ -112,6 +126,13 @@ class Jogo:
                         self.cracha
                     )
 
+                if self.mapa.nome == "hall_cin" and not self.tem_jornal:
+                    pygame.draw.rect(
+                        self.tela,
+                        (235, 235, 235),
+                        self.jornal
+                    )
+
                 titulo = self.fonte.render(
                     "NIGHT WATCHERS", True, (235, 235, 235)
                 )
@@ -119,6 +140,34 @@ class Jogo:
                 self.tela.blit(titulo, (300, 230))
                 self.jogador.desenhar(self.tela)
 
+                # textos do jornal
+                if pygame.time.get_ticks() < self.mostrar_jornal_ate:
+                
+                    pygame.draw.rect(
+                        self.tela,
+                        (30, 30, 40),
+                        (50, 320, 860, 170),
+                        border_radius=10
+                    )
+                
+                    linha1 = self.fonte_jornal.render(
+                    "JORNAL ENCONTRADO", True, (255, 255, 255)
+                    )
+
+                    linha2 = self.fonte_jornal.render(
+                    "CRISE INSTITUCIONAL EM TODO O BRASIL", True, (255, 255, 255)
+                    )
+
+                    linha3 = self.fonte_jornal.render(
+                    "APÓS O MASSACRE DOS TRÊS PODERES", True, (255, 255, 255)
+                    )
+
+                    # Desenho das três linhas
+                    self.tela.blit(linha1, (480 - linha1.get_width() // 2, 340))
+                    self.tela.blit(linha2, (480 - linha2.get_width() // 2, 382))
+                    self.tela.blit(linha3, (480 - linha3.get_width() // 2, 424))
+
+                
             pygame.display.flip()
 
         pygame.quit()
