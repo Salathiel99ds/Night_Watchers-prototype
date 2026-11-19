@@ -73,8 +73,6 @@ class Jogo:
                             if jogador_rect.colliderect(area_interacao):
                                 self.smartphone_lido = True
                                 self.mostrar_smartphone_ate = pygame.time.get_ticks() + 12000
-                                print("Smartphone de LVN encontrado!")
-                                print("Mensagem de AC: Vou chegar na Grad05 em poucos minutos.")
 
             if self.estado == "game_over":
                 self.tela_morte.desenhar(self.tela)
@@ -94,14 +92,12 @@ class Jogo:
 
                    if jogador_rect.colliderect(self.cracha):
                         self.tem_cracha = True
-                        print("Crachá de acesso adquirido!")
 
                 # personagem coleta jornal
                 if self.mapa.nome == "hall_cin" and not self.tem_jornal:
                     if jogador_rect.colliderect(self.jornal):
                         self.tem_jornal = True
                         self.mostrar_jornal_ate = pygame.time.get_ticks() + 10000
-                        print("Jornal adquirido!")
 
                 # transição de mapas
                 if self.mapa.nome == "exterior_cin":
@@ -152,9 +148,25 @@ class Jogo:
                         self.obstaculos = self.mapa.obstaculos
                         self.jogador.posicao.x = 880
                         self.jogador.posicao.y = 254
-                                                                                                                                                                    
-                                                                            
 
+                    # Jardim interno -> Grad05
+                    elif self.jogador.posicao.x >= 928:
+                        self.mapa = Mapa("grad05")
+                        self.obstaculos = self.mapa.obstaculos
+
+                        self.jogador.posicao.x = 16
+                        self.jogador.posicao.y = 254
+
+                elif self.mapa.nome == "grad05":
+                    # Grad05 -> Jardim interno
+                    if self.jogador.posicao.x <= 0:
+                        self.mapa = Mapa("jardim_interno")
+                        self.obstaculos = self.mapa.obstaculos
+
+                        self.jogador.posicao.x = 880
+                        self.jogador.posicao.y = 254
+
+                
                 self.tela.fill((15, 18, 28))
 
                 self.mapa.desenhar(self.tela)
