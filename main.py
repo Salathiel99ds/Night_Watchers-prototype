@@ -75,8 +75,8 @@ class Jogo:
 
 
                 elif self.mapa.nome == "hall_cin":
-                    if self.jogador.posicao.x >= 928:
-                        self.mapa = Mapa("hall_cin")
+                    if self.jogador.posicao.x <= 0:
+                        self.mapa = Mapa("entrada_cin")
                         self.obstaculos = self.mapa.obstaculos
 
                         self.jogador.posicao.x = 880
