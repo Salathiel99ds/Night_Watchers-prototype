@@ -18,7 +18,11 @@ class Jogo:
         self.tela_morte = TelaMorte()
         self.jogador = Jogador(464, 254)
         self.mapa = Mapa()
-        self.obstaculos = self.mapa.obstaculos 
+        self.obstaculos = self.mapa.obstaculos
+
+        # coletáveis
+        self.tem_cracha = False
+        self.cracha = pygame.Rect(520, 300, 24, 16)
 
 
     def executar(self):
@@ -50,8 +54,21 @@ class Jogo:
                 self.jogador.atualizar(teclas, dt, self.obstaculos)
                 self.jogador.limitar_na_tela(*self.tela.get_size())
 
+                # personagem coletando
+                if self.mapa.nome == "exterior_cin" and not self.tem_cracha:
+
+                    jogador_rect = pygame.Rect(
+                        self.jogador.posicao.x,
+                        self.jogador.posicao.y,
+                        32, 32
+                    )
+
+                    if jogador_rect.colliderect(self.cracha):
+                        self.tem_cracha = True
+                        print("Crachá de acesso adquirido!")
+
                 if self.mapa.nome == "exterior_cin":
-                    if self.jogador.posicao.x >= 928:
+                    if self.jogador.posicao.x >= 928 and self.tem_cracha:
                         self.mapa = Mapa("entrada_cin")
                         self.obstaculos = self.mapa.obstaculos
 
@@ -86,6 +103,14 @@ class Jogo:
                 self.tela.fill((15, 18, 28))
 
                 self.mapa.desenhar(self.tela)
+
+                # Desenho do coletável
+                if self.mapa.nome == "exterior_cin" and not self.tem_cracha:
+                    pygame.draw.rect(
+                        self.tela,
+                        (255, 215, 0),
+                        self.cracha
+                    )
 
                 titulo = self.fonte.render(
                     "NIGHT WATCHERS", True, (235, 235, 235)
