@@ -30,6 +30,12 @@ class Jogo:
         self.mostrar_jornal_ate = 0
         self.fonte_jornal = pygame.font.SysFont("Arial", 24)
 
+        # coleta do smartphone
+        self.smartphone_lido = False
+        self.smartphone = pygame.Rect(472, 245, 16, 28)
+        self.mostrar_smartphone_ate = 0
+        self.fonte_smartphone = pygame.font.SysFont("Arial", 22)
+
 
     def executar(self):
         while self.rodando:
@@ -52,6 +58,23 @@ class Jogo:
 
                     elif evento.key == pygame.K_ESCAPE:
                         self.rodando = False
+
+                    elif evento.key == pygame.K_e:
+                        if self.mapa.nome == "jardim_interno" and not self.smartphone_lido:
+
+                            jogador_rect = pygame.Rect(
+                                self.jogador.posicao.x,
+                                self.jogador.posicao.y,
+                                32, 32
+                            )
+
+                            area_interacao = self.smartphone.inflate(180, 140)
+
+                            if jogador_rect.colliderect(area_interacao):
+                                self.smartphone_lido = True
+                                self.mostrar_smartphone_ate = pygame.time.get_ticks() + 12000
+                                print("Smartphone de LVN encontrado!")
+                                print("Mensagem de AC: Vou chegar na Grad05 em poucos minutos.")
 
             if self.estado == "game_over":
                 self.tela_morte.desenhar(self.tela)
@@ -106,13 +129,31 @@ class Jogo:
 
 
                 elif self.mapa.nome == "hall_cin":
+                    # Hall -> Entrada
                     if self.jogador.posicao.x <= 0:
                         self.mapa = Mapa("entrada_cin")
                         self.obstaculos = self.mapa.obstaculos
 
                         self.jogador.posicao.x = 880
                         self.jogador.posicao.y = 254
-                
+
+                    # Hall -> jardim interno
+                    elif self.jogador.posicao.x >= 928:
+                        self.mapa = Mapa("jardim_interno")
+                        self.obstaculos = self.mapa.obstaculos
+
+                        self.jogador.posicao.x = 16
+                        self.jogador.posicao.y = 254
+
+                elif self.mapa.nome == "jardim_interno":
+                    # jardim interno -> Hall
+                    if self.jogador.posicao.x <= 0:
+                        self.mapa = Mapa("hall_cin")
+                        self.obstaculos = self.mapa.obstaculos
+                        self.jogador.posicao.x = 880
+                        self.jogador.posicao.y = 254
+                                                                                                                                                                    
+                                                                            
 
                 self.tela.fill((15, 18, 28))
 
@@ -131,6 +172,13 @@ class Jogo:
                         self.tela,
                         (235, 235, 235),
                         self.jornal
+                    )
+
+                if self.mapa.nome == "jardim_interno" and not self.smartphone_lido:
+                    pygame.draw.rect(
+                        self.tela, (35, 40, 55),
+                        self.smartphone,
+                        border_radius=4
                     )
 
                 titulo = self.fonte.render(
@@ -166,6 +214,35 @@ class Jogo:
                     self.tela.blit(linha1, (480 - linha1.get_width() // 2, 340))
                     self.tela.blit(linha2, (480 - linha2.get_width() // 2, 382))
                     self.tela.blit(linha3, (480 - linha3.get_width() // 2, 424))
+
+                # Exibição da mensagem na tela de bloqueio do smartphone
+                if pygame.time.get_ticks() < self.mostrar_smartphone_ate:
+
+                    pygame.draw.rect(
+                        self.tela,
+                        (25, 30, 45),
+                        (120, 130, 720, 300),
+                        border_radius=12
+                    )
+
+                    mensagens = [
+                        "SMARTPHONE DE LVN",
+                        "Nova mensagem de AC:",
+                        "Relaxa, vamos terminar o projeto ainda hoje.",
+                        "Estou chegando na Grad05",
+                        "em poucos minutos."
+                    ]
+
+                    for i in range(len(mensagens)):
+                        texto = self.fonte_smartphone.render(
+                            mensagens[i], True, (240, 240, 240)
+                        )
+
+                        x = 480 - texto.get_width() // 2
+                        y = 165 + i * 48
+
+                        self.tela.blit(texto, (x, y))
+                    
 
                 
             pygame.display.flip()
