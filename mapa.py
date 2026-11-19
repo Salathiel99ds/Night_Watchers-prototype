@@ -39,8 +39,39 @@ class Mapa:
               pygame.Rect(420, 230, 120, 60)
          ]
 
+        elif self.nome == "grad05":
+           # Obstáculos da sala Grad05
+            self.obstaculos = [
+              pygame.Rect(0, 0, 960, 90),
+              pygame.Rect(0, 450, 960, 90),
+              pygame.Rect(380, 125, 200, 65)
+           ]
+           
+
     def desenhar(self, tela):
         tela.fill((185, 180, 169))
+
+        if self.nome == "grad05":
+           # Piso da sala
+           tela.fill((185, 180, 169))
+
+           # Parede superior
+           pygame.draw.rect(
+              tela, (95, 95, 95),
+              self.obstaculos[0]
+           )
+
+           # Parede inferior
+           pygame.draw.rect(
+              tela, (95, 95, 95),
+              self.obstaculos[1]
+           )
+
+           # Mesa
+           pygame.draw.rect(
+              tela, (110, 75, 50),
+              self.obstaculos[2]
+           )
 
         if self.nome == "jardim_interno":
            # Piso do jardim
