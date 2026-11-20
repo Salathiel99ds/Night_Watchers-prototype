@@ -1,5 +1,7 @@
 # Night Watchers Prototype
-"Este projeto é a primeira materialização de algo com que eu já sonhava há muito tempo..." Este jogo foi idealizado por José Salathiel e terá ajuda de: João Marcelo, Francisco Gabriel, João Moinhos e Rafael Ferreira.
+"Este projeto é a primeira materialização de algo com que eu já sonhava há muito tempo..." 
+
+Este jogo foi idealizado por José Salathiel e terá ajuda de: João Marcelo, Francisco Gabriel, João Moinhos e Rafael Ferreira.
 Night Watchers é um jogo 2D desenvolvido em Python como projeto de introdução à programação. O protótipo adapta um minúsculo trecho do universo de Night Watchers, em que haverá um confronto direto com um dos 11 pivôs, um grupo seleto que representa as grandes potências contemporâneas. Durante o processo de desenvolvimento, estamos trabalhando com diversas possibilidades de programação, narrativa e design, procurando preservar a identidade visual e a atmosfera narrativa características do jogo.
 
 MEMBROS DA EQUIPE
