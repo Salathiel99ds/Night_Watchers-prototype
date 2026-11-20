@@ -30,8 +30,19 @@ class Mapa:
               pygame.Rect(170, 110, 180, 65),
               pygame.Rect(620, 315, 50, 75)
          ]
+            
+        elif self.nome == "corredor1_cin":
+            # Corredor obstruído à esquerda do hall
+            self.obstaculos = [
+               pygame.Rect(0, 0, 960, 90),
+               pygame.Rect(0, 450, 960, 90),
 
-        elif self.nome == "jardim_interno":
+             # Bloqueio da passagem
+               pygame.Rect(300, 90, 60, 360)
+        ]
+
+                
+       elif self.nome == "jardim_interno":
            # obstáculos do jardim
            self.obstaculos = [
               pygame.Rect(0, 0, 960, 90),
@@ -39,17 +50,79 @@ class Mapa:
               pygame.Rect(420, 230, 120, 60)
          ]
 
+        elif self.nome == "corredor2_cin":
+            # Corredor alternativo
+            self.obstaculos = [
+                pygame.Rect(0, 0, 960, 90),
+                pygame.Rect(0, 450, 960, 90),
+
+                # Obstáculos do corredor alternativo 
+                pygame.Rect(430, 90, 70, 100),
+                pygame.Rect(630, 350, 70, 100)
+        ]
+                
+
         elif self.nome == "grad05":
            # Obstáculos da sala Grad05
             self.obstaculos = [
               pygame.Rect(0, 0, 960, 90),
               pygame.Rect(0, 450, 960, 90),
               pygame.Rect(380, 125, 200, 65)
-           ]
+        ]
            
 
     def desenhar(self, tela):
         tela.fill((185, 180, 169))
+
+        if self.nome == "corredor1_cin":
+            # Piso do corredor
+            tela.fill((170, 173, 176))
+
+            # Paredes superior e inferior
+            pygame.draw.rect(
+                tela, (95, 95, 95),
+                self.obstaculos[0]
+            )
+            
+            pygame.draw.rect(
+                tela, (95, 95, 95),
+                self.obstaculos[1]
+            )
+            
+            # Passagem Obstruída
+            pygame.draw.rect(
+                tela, (125, 75, 55),
+                self.obstaculos[2]
+            )
+            
+            return
+
+        if self.nome == "corredor2_cin":
+            # Piso do corredor alternativo
+            tela.fill((170, 173, 176))
+
+           # Paredes do Corredor
+           pygame.draw.rect(
+               tela, (95, 95, 95),
+               self.obstaculos[0]
+           )
+
+           pygame.draw.rect(
+               tela, (95, 95, 95),
+               self.obstaculos[1]
+           )
+
+           pygame.draw.rect(
+               tela, (125, 105, 85),
+               self.obstaculos[2]
+           )
+
+           pygame.draw.rect(
+               tela, (125, 105, 85),
+               self.obstaculos[3]
+           )
+
+           return
 
         if self.nome == "grad05":
            # Piso da sala
