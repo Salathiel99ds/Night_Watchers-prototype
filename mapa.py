@@ -73,6 +73,9 @@ class Mapa:
               self.obstaculos[2]
            )
 
+           return
+ 
+
         if self.nome == "jardim_interno":
            # Piso do jardim
            tela.fill((110, 145, 110))
