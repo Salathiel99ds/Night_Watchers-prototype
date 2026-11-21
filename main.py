@@ -1,5 +1,6 @@
 import pygame 
 from game_over import TelaMorte
+from tela_vitoria import TelaVitoria 
 from jogador import Jogador
 from mapa import Mapa
 
@@ -16,6 +17,7 @@ class Jogo:
 
         self.fonte = pygame.font.SysFont("Arial", 36)
         self.tela_morte = TelaMorte()
+        self.tela_vitoria = TelaVitoria() 
         self.jogador = Jogador(464, 254)
         self.mapa = Mapa()
         self.obstaculos = self.mapa.obstaculos
@@ -53,6 +55,14 @@ class Jogo:
                         elif acao == "sair":
                             self.rodando = False
 
+                    elif self.estado == "vitoria":
+                        acao = self.tela_vitoria.processar_evento(evento)
+
+                        if acao == "reiniciar":
+                            self.estado = "inicio"
+                        elif acao == "sair":
+                            self.rodando = False
+
                     elif evento.key == pygame.K_g:
                         self.estado = "game_over"
 
@@ -76,6 +86,10 @@ class Jogo:
 
             if self.estado == "game_over":
                 self.tela_morte.desenhar(self.tela)
+
+            elif self.estado == "vitoria":
+                self.tela_vitoria.desenhar(self.tela)
+
             else:
                 teclas = pygame.key.get_pressed()
                 self.jogador.atualizar(teclas, dt, self.obstaculos)
