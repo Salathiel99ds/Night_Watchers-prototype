@@ -121,25 +121,39 @@ class Jogo:
                         self.obstaculos = self.mapa.obstaculos
 
                         self.jogador.posicao.x = 16
-                        self.jogador.posicao.y = 254
+                        self.jogador.posicao.y = 350
 
 
                 elif self.mapa.nome == "hall_cin":
-                    # Hall -> Entrada
+                    # Saídas pela esquerda do hall
                     if self.jogador.posicao.x <= 0:
-                        self.mapa = Mapa("entrada_cin")
-                        self.obstaculos = self.mapa.obstaculos
+                        # Hall -> Corredor 1
+                        if self.jogador.posicao.y < 270:
+                            self.mapa = Mapa("corredor1_cin")
+                            self.jogador.posicao.x = 880
+                            self.jogador.posicao.y = 180
+                    
+                    # Hall -> Entrada
+                        else:
+                            self.mapa = Mapa("entrada_cin")
+                            self.jogador.posicao.x = 880
+                            self.jogador.posicao.y = 350
+                            
+                       self.obstaculos = self.mapa.obstaculos
 
-                        self.jogador.posicao.x = 880
-                        self.jogador.posicao.y = 254
-
-                    # Hall -> jardim interno
+                    # saídas pela direita do hall
                     elif self.jogador.posicao.x >= 928:
-                        self.mapa = Mapa("jardim_interno")
-                        self.obstaculos = self.mapa.obstaculos
-
-                        self.jogador.posicao.x = 16
-                        self.jogador.posicao.y = 254
+                     # Hall -> jardim interno
+                       if self.jogador.posicao.y < 270:
+                           self.mapa = Mapa("jardim_interno")
+                           self.jogador.posicao.x = 16
+                           self.jogador.posicao.y = 180
+                           
+                       else:
+                           self.mapa = Mapa("corredor2_cin")
+                           self.jogador.posicao.x = 16
+                           self.jogador.posicao.y = 350
+                      self.obstaculos = self.mapa.obstaculos
 
                 elif self.mapa.nome == "jardim_interno":
                     # jardim interno -> Hall
@@ -149,7 +163,7 @@ class Jogo:
                         self.jogador.posicao.x = 880
                         self.jogador.posicao.y = 254
 
-                    # Jardim interno -> Grad05
+                    # corredor alternativo -> Grad05
                     elif self.jogador.posicao.x >= 928:
                         self.mapa = Mapa("grad05")
                         self.obstaculos = self.mapa.obstaculos
@@ -158,7 +172,7 @@ class Jogo:
                         self.jogador.posicao.y = 254
 
                 elif self.mapa.nome == "grad05":
-                    # Grad05 -> Jardim interno
+                    # Grad05 -> corredor alternativo 
                     if self.jogador.posicao.x <= 0:
                         self.mapa = Mapa("jardim_interno")
                         self.obstaculos = self.mapa.obstaculos
