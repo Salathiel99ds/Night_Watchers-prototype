@@ -21,11 +21,11 @@ _________________
  FRANSCISCO 
  GABRIEL: Programação e aprimoramento do código, com correção de erros. Criação e desenvolvimento dos elementos gráficos (sprites). Integração das sprites ao jogo, incluindo a troca de imagens conforme a direção do personagem. Produção dos recursos visuais das telas de tutorial. Definição e aplicação das fontes utilizadas nos textos do jogo. Realização de ajustes na interface dos tutoriais, como plano de fundo, botões, textos, dimensões e espaçamentos. Refinamento dos botões das telas de vitória (Win) e derrota (Game Over). Correção e melhoria da movimentação de Cobel. Organização e estruturação dos arquivos de imagem do projeto.  
 ________________
-# ARQUITETURA DO PROJETO E ORGANIZAÇÃO DO JOGO
+# Arquitetura do projeto e Organização do jogo
 
-# CAPTURAS DA TELA
+# Capturas da tela
 
-# CONCEITOS DA DISCIPLINA APLICADOS
+# Conceitos da Disciplina Aplicados
 
-# DESAFIOS, ERROS E LIÇÕES APRENDIDAS
+# Desafios, Erros e Lições aprendidas
 
