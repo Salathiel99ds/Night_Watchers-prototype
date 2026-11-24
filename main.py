@@ -1,6 +1,8 @@
 import pygame 
 from game_over import TelaMorte
 from tela_vitoria import TelaVitoria 
+from tela_tutorial import TelaTutorial
+from tela_start import TelaStart
 from jogador import Jogador
 from mapa import Mapa
 
@@ -13,11 +15,13 @@ class Jogo:
         self.relogio = pygame.time.Clock()
         self.fps = 144
         self.rodando = True
-        self.estado = "inicio"
+        self.estado = "menu"
 
         self.fonte = pygame.font.SysFont("Arial", 36)
         self.tela_morte = TelaMorte()
         self.tela_vitoria = TelaVitoria() 
+        self.tela_tutorial = TelaTutorial()
+        self.tela_start = TelaStart()
         self.jogador = Jogador(464, 254)
         self.mapa = Mapa()
         self.obstaculos = self.mapa.obstaculos
@@ -46,8 +50,25 @@ class Jogo:
                 if evento.type == pygame.QUIT:
                     self.rodando = False
 
+                elif self.estado == "menu":
+                    acao = self.tela_start.processar_evento(evento)
+
+                    if acao == "jogar":
+                        self.estado = "inicio"
+                    elif acao == "tutorial":
+                        self.tela_tutorial.reiniciar()
+                        self.estado = "tutorial"
+                    elif acao == "sair":
+                        self.rodando = False
+
                 elif evento.type == pygame.KEYDOWN:
-                    if self.estado == "game_over":
+                    if self.estado == "tutorial":
+                        acao = self.tela_tutorial.processar_evento(evento)
+
+                        if acao == "concluido" or acao == "voltar":
+                            self.estado = "menu"
+
+                    elif self.estado == "game_over":
                         acao = self.tela_morte.processar_evento(evento)
 
                         if acao == "reiniciar":
@@ -84,7 +105,14 @@ class Jogo:
                                 self.smartphone_lido = True
                                 self.mostrar_smartphone_ate = pygame.time.get_ticks() + 12000
 
-            if self.estado == "game_over":
+            if self.estado == "menu":
+                self.tela_start.desenhar(self.tela)
+
+            elif self.estado == "tutorial":
+                self.tela_tutorial.atualizar(pygame.key.get_pressed(), dt)
+                self.tela_tutorial.desenhar(self.tela)
+
+            elif self.estado == "game_over":
                 self.tela_morte.desenhar(self.tela)
 
             elif self.estado == "vitoria":
@@ -135,100 +163,50 @@ class Jogo:
                         self.obstaculos = self.mapa.obstaculos
 
                         self.jogador.posicao.x = 16
-                        self.jogador.posicao.y = 350
+                        self.jogador.posicao.y = 254
 
 
                 elif self.mapa.nome == "hall_cin":
-                    # Saídas pela esquerda do hall
-                    if self.jogador.posicao.x <= 0:
-                        # Hall -> Corredor 1
-                        if self.jogador.posicao.y < 270:
-                            self.mapa = Mapa("corredor1_cin")
-                            self.jogador.posicao.x = 880
-                            self.jogador.posicao.y = 180
-                    
                     # Hall -> Entrada
-                        else:
-                            self.mapa = Mapa("entrada_cin")
-                            self.jogador.posicao.x = 880
-                            self.jogador.posicao.y = 350
-                            
+                    if self.jogador.posicao.x <= 0:
+                        self.mapa = Mapa("entrada_cin")
                         self.obstaculos = self.mapa.obstaculos
 
-                    # saídas pela direita do hall
-                    if self.jogador.posicao.x >= 928:
-                     # Hall -> jardim interno
-                       if self.jogador.posicao.y < 270:
-                           self.mapa = Mapa("jardim_interno")
-                           self.jogador.posicao.x = 16
-                           self.jogador.posicao.y = 180
-                           
-                       else:
-                           self.mapa = Mapa("corredor2_cin")
-                           self.jogador.posicao.x = 16
-                           self.jogador.posicao.y = 350
+                        self.jogador.posicao.x = 880
+                        self.jogador.posicao.y = 254
 
-                       self.obstaculos = self.mapa.obstaculos
-                
-                elif self.mapa.nome == "corredor1_cin":
-                   # corredor 1 -> jardim interno
-                   if self.jogador.posicao.x <= 0:
-                       self.mapa = Mapa("jardim_interno")
-                       self.obstaculos = self.mapa.obstaculos
-                       
-                       self.jogador.posicao.x = 880
-                       self.jogador.posicao.y = 350
+                    # Hall -> jardim interno
+                    elif self.jogador.posicao.x >= 928:
+                        self.mapa = Mapa("jardim_interno")
+                        self.obstaculos = self.mapa.obstaculos
 
-                   # corredor 1 -> Hall
-                   elif self.jogador.posicao.x >= 928:
-                       self.mapa = Mapa("hall_cin")
-                       self.obstaculos = self.mapa.obstaculos
-                       
-                       self.jogador.posicao.x = 16
-                       self.jogador.posicao.y = 180
+                        self.jogador.posicao.x = 16
+                        self.jogador.posicao.y = 254
 
                 elif self.mapa.nome == "jardim_interno":
                     # jardim interno -> Hall
                     if self.jogador.posicao.x <= 0:
                         self.mapa = Mapa("hall_cin")
                         self.obstaculos = self.mapa.obstaculos
-
                         self.jogador.posicao.x = 880
                         self.jogador.posicao.y = 254
 
-                    # jardim interno -> corredor 1
-                    elif self.jogador.posicao.x >= 928:
-                        self.mapa = Mapa("corredor1_cin")
-                        self.obstaculos = self.mapa.obstaculos
-
-                        self.jogador.posicao.x = 16
-                        self.jogador.posicao.y = 350
-                        
-                elif self.mapa.nome == "corredor2_cin":
-                    # Corredor 2 -> Hall
-                    if self.jogador.posicao.x <= 0:
-                        self.mapa = Mapa("hall_cin")
-                        self.obstaculos = self.mapa.obstaculos
-                        
-                        self.jogador.posicao.x = 880
-                        self.jogador.posicao.y = 350
-                        
-                    # corredor 2 -> grad05    
+                    # Jardim interno -> Grad05
                     elif self.jogador.posicao.x >= 928:
                         self.mapa = Mapa("grad05")
                         self.obstaculos = self.mapa.obstaculos
-                        
+
                         self.jogador.posicao.x = 16
-                        self.jogador.posicao.y = 350
+                        self.jogador.posicao.y = 254
 
                 elif self.mapa.nome == "grad05":
-                    # Grad05 -> corredor 2
+                    # Grad05 -> Jardim interno
                     if self.jogador.posicao.x <= 0:
-                        self.mapa = Mapa("corredor2_cin")
+                        self.mapa = Mapa("jardim_interno")
                         self.obstaculos = self.mapa.obstaculos
 
                         self.jogador.posicao.x = 880
-                        self.jogador.posicao.y = 350
+                        self.jogador.posicao.y = 254
 
                 
                 self.tela.fill((15, 18, 28))
@@ -328,4 +306,3 @@ class Jogo:
 if __name__ == "__main__":
   jogo = Jogo()
   jogo.executar() 
-  
