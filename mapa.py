@@ -20,7 +20,7 @@ class Mapa:
              pygame.Rect(0, 430, 960, 110),
              pygame.Rect(230, 350, 70, 80),
              pygame.Rect(690, 110, 36, 50)
-          ]
+        ]
 
         elif self.nome == "hall_cin":
            # Obstáculos da recepcao e do hall
@@ -29,7 +29,7 @@ class Mapa:
               pygame.Rect(0, 450, 960, 90),
               pygame.Rect(170, 110, 180, 65),
               pygame.Rect(620, 315, 50, 75)
-         ]
+        ]
             
         elif self.nome == "corredor1_cin":
             # Corredor obstruído à esquerda do hall
@@ -42,13 +42,13 @@ class Mapa:
         ]
 
                 
-       elif self.nome == "jardim_interno":
+        elif self.nome == "jardim_interno":
            # obstáculos do jardim
            self.obstaculos = [
               pygame.Rect(0, 0, 960, 90),
               pygame.Rect(0, 450, 960, 90),
               pygame.Rect(420, 230, 120, 60)
-         ]
+        ]
 
         elif self.nome == "corredor2_cin":
             # Corredor alternativo
@@ -102,27 +102,27 @@ class Mapa:
             tela.fill((170, 173, 176))
 
            # Paredes do Corredor
-           pygame.draw.rect(
+            pygame.draw.rect(
                tela, (95, 95, 95),
                self.obstaculos[0]
            )
 
-           pygame.draw.rect(
+            pygame.draw.rect(
                tela, (95, 95, 95),
                self.obstaculos[1]
            )
 
-           pygame.draw.rect(
+            pygame.draw.rect(
                tela, (125, 105, 85),
                self.obstaculos[2]
            )
 
-           pygame.draw.rect(
+            pygame.draw.rect(
                tela, (125, 105, 85),
                self.obstaculos[3]
            )
 
-           return
+            return
 
         if self.nome == "grad05":
            # Piso da sala
