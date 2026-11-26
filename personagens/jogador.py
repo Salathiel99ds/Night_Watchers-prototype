@@ -2,7 +2,8 @@ import os
 import pygame
 
 
-PASTA_SPRITES = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+PASTA_SPRITES = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                              "assets", "imagens", "personagens", "levi", "parado")
 
 class Jogador:
