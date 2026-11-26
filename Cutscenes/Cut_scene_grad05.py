@@ -94,14 +94,23 @@ class CutsceneGrad05:
 
         self.indice = 0
         self.finalizada = False
+        self.mostrando_sala = True
 
     def processar_evento(self, evento):
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_SPACE:
-                if self.indice < len(self.quadros) - 1:
+
+                # Encerra a apresentação inicial da sala
+                if self.mostrando_sala:
+                    self.mostrando_sala = False
+
+                # Avança os quadros narrativos
+                elif self.indice < len(self.quadros) - 1:
                     self.indice += 1
+
+                # Encerra a cutscene
                 else:
-                    self.finalizada = True
+                    self.finalizada = True 
 
     def desenhar(self, tela):
         # Limpa a tela
@@ -143,6 +152,33 @@ class CutsceneGrad05:
             (120, 115),
             5
         )
+
+        # Piso do Grad05
+        pygame.draw.rect(
+            tela,
+            (65, 65, 70),
+            (0, 195, 960, 345)
+        )
+
+        # linhas de perspectiva do piso
+        for x in range(0, 1200, 160):
+            pygame.draw.line(
+                tela,
+                (80, 80, 85),
+                (480, 195),
+                (x, 540),
+                1
+            )
+
+        # Divisões horizontais do piso
+        for y in (280, 350, 430, 520):
+            pygame.draw.line(
+                tela,
+                (85, 85, 90),
+                (0, y),
+                (960, y),
+                1
+            )
 
         # Primeiro quadro branco
         pygame.draw.rect(
@@ -187,21 +223,186 @@ class CutsceneGrad05:
             3
         )
 
-        # caixa de dialogo
+        # Mesa do professor - Grad05
+
+        # Tampo da mesa
         pygame.draw.rect(
             tela,
-            (35, 35, 50),
-            (70, 195, 820, 240),
+            (205, 180, 145),
+            (740, 235, 155, 12),
+            border_radius=3
+        )
+
+        # Sustentação esquerda
+        pygame.draw.rect(
+            tela,
+            (155, 125, 95),
+            (750, 247, 10, 32)
+        )
+
+        # Gabinete lateral da mesa
+        pygame.draw.rect(
+            tela,
+            (190, 165, 130),
+            (850, 247, 40, 32),
+            border_radius=2
+        )
+
+        # Contorno do gabinete
+        pygame.draw.rect(
+            tela,
+            (120, 95, 70),
+            (850, 247, 40, 32),
+            2,
+            border_radius=2
+        )
+
+        # Monitor do professor (moldura, tela, base do monitor, teclado e mouse)
+        pygame.draw.rect(
+            tela,
+            (25, 25, 30),
+            (785, 202, 75, 32),
+            border_radius=3
+        )
+
+        pygame.draw.rect(
+            tela,
+            (45, 60, 70),
+            (790, 207, 65, 22)
+        )
+
+        pygame.draw.rect(
+            tela,
+            (55, 55, 60),
+            (818, 231, 10, 7)
+        )
+
+        pygame.draw.rect(
+            tela,
+            (35, 35, 40),
+            (760, 240, 48, 6),
+            border_radius=2
+        )
+
+        for x in range(764, 804, 6):
+            pygame.draw.line(
+                tela,
+                (100, 100, 105),
+                (x, 242),
+                (x + 3, 242)
+            )
+        pygame.draw.ellipse(
+            tela,
+            (40, 40, 45),
+            (818, 240, 9, 7)
+        )
+
+        # Cadeira giratória (encosto, contorno, assento, haste, base)
+        pygame.draw.rect(
+            tela,
+            (40, 42, 48),
+            (695, 215, 34, 48),
             border_radius=12
         )
 
         pygame.draw.rect(
             tela,
-            (180, 180, 200),
-            (70, 195, 820, 240),
-            2,
+            (105, 105, 115),
+            (695, 215, 34, 48),
             border_radius=12
-       )
+        )
+
+        pygame.draw.ellipse(
+            tela,
+            (50, 50, 55),
+            (687, 260, 50, 13)
+        )
+
+        pygame.draw.rect(
+            tela,
+            (90, 90, 95),
+            (709, 271, 6, 20)
+        )
+
+        pygame.draw.line(
+            tela,
+            (75, 75, 80),
+            (694, 291),
+            (731, 291),
+            4
+        )
+
+        # primeira fileira de computadores
+
+        for x in(120, 300, 480):
+
+            # Tampo da mesa
+            pygame.draw.rect(
+                tela,
+                (205, 205, 205),
+                (x, 248, 140, 10)
+            )
+
+            # Pés da mesa
+            pygame.draw.rect(
+                tela,
+                (125, 125, 130),
+                (x + 8, 258, 7, 22)
+            )
+
+            pygame.draw.rect(
+                tela,
+                (25, 25, 30),
+                (x + 42, 215, 56, 30),
+                border_radius=2
+            )
+
+            # Moldura do monitor
+            pygame.draw.rect(
+                tela,
+                (25, 25, 30),
+                (x + 42, 215, 56, 30),
+                border_radius=2
+            )
+
+            # tela do monitor
+            pygame.draw.rect(
+                tela,
+                (45, 55, 65),
+                (x + 46, 219, 48, 22)
+            )
+
+            pygame.draw.rect(
+                tela,
+                (65, 65, 70),
+                (x + 66, 245, 10, 3)
+            )
+
+        # Cadeiras dos estudantes
+        for x in (120, 300, 480):
+
+            pygame.draw.rect(
+                tela,
+                (38, 40, 45),
+                (x + 50, 257, 40, 42),
+                2,
+                border_radius=2
+            )
+
+            pygame.draw.rect(
+                tela,
+                (95, 100, 105),
+                (x + 50, 257, 40, 42),
+                2,
+                border_radius=8
+            )
+
+            pygame.draw.ellipse(
+                tela,
+                (48, 50, 55),
+                (x + 45, 291, 50, 12)
+            )
+
 
         # Aparelhos de ar-condicionado
         for x in (200, 690):
@@ -231,6 +432,168 @@ class CutsceneGrad05:
                 2
             )
 
+        # Segunda fileira de computadores - mais próxima sustentações, molduras, telas, bases dos monitores, teclados e encostos)
+
+        for x in (100, 355, 610):
+            # Mesa
+            pygame.draw.rect(
+                tela,
+                (205, 205, 205),
+                (x, 345, 175, 14),
+                border_radius=2
+            )
+
+            # Sustentações
+            pygame.draw.rect(
+                tela,
+                (125, 125, 130),
+                (x + 12, 359, 9, 35)
+            )
+
+            pygame.draw.rect(
+                tela,
+                (125, 125, 130),
+                (x + 154, 359, 9, 35)
+            )
+
+            # Molduras dos monitores
+            pygame.draw.rect(
+                tela,
+                (25, 25, 30),
+                (x + 48, 299, 78, 43),
+                border_radius=3
+            )
+
+            # Tela
+            pygame.draw.rect(
+                tela,
+                (45, 55, 65),
+                (x + 53, 304, 68, 33)
+            )
+
+            # Base do monitor
+            pygame.draw.rect(
+                tela,
+                (65, 65, 70),
+                (x + 83, 342, 12, 4)
+            )
+
+            # Teclados 
+            pygame.draw.rect(
+                tela,
+                (40, 40, 45),
+                (x + 58, 348, 55, 6)
+            )
+
+            # Encosto da cadeira
+            pygame.draw.rect(
+                tela,
+                (38, 40, 45),
+                (x + 64, 378, 48, 47),
+                border_radius=9
+            )
+
+        # terceira fileira de computadores - primeiro plano 
+        for x in (50, 355, 660):
+
+            # Tampo da mesa
+            pygame.draw.rect(
+                tela,
+                (210, 210, 210),
+                (x, 418, 240, 14),
+                border_radius=2
+            )
+
+            # Sustentações 
+            pygame.draw.rect(
+                tela,
+                (135, 135, 140),
+                (x + 15, 432, 10, 45)
+            )
+
+            pygame.draw.rect(
+                tela,
+                (135, 135, 140),
+                (x + 215, 432, 10, 45)
+            )
+
+            # Moldura do Monitor
+            pygame.draw.rect(
+                tela,
+                (25, 25, 30),
+                (x + 81, 360, 78, 45)
+            )
+
+            # Tela do monitor
+            pygame.draw.rect(
+                tela,
+                (45, 55, 65),
+                (x + 81, 360, 78, 45)
+            )
+
+            # Suporte do monitor
+            pygame.draw.rect(
+                tela,
+                (65, 65, 70),
+                (x + 116, 410, 10, 8)
+            )
+
+            # Teclado
+            pygame.draw.rect(
+                tela,
+                (40, 40, 45),
+                (x + 90, 422, 65, 6),
+                border_radius=2
+            )
+
+            # Encosto da cadeira
+            pygame.draw.rect(
+                tela,
+                (38, 40, 45),
+                (x + 88, 448, 65, 48),
+                border_radius=9
+            )
+
+            # Contorno da cadeira
+            pygame.draw.rect(
+                tela,
+                (95, 100, 105), 
+                (x + 88, 448, 65, 48),
+                2,
+                border_radius=9
+            )
+
+        # Apresentação inicial do grad05
+        if self.mostrando_sala:
+            fonte_intro = pygame.font.Font(None, 28)
+            
+            aviso = fonte_intro.render(
+              "APERTE ESPAÇO PARA INICIAR A NARRATIVA",
+               True,
+               (230, 200, 130)
+            )
+        
+            tela.blit(aviso, aviso.get_rect(center=(480, 510))
+            )
+        
+            return
+
+        # Fundo da caixa de diálogo
+        pygame.draw.rect(
+            tela,
+            (35, 35, 50),
+            (70, 280, 820, 210),
+            border_radius=12
+        )
+
+        # Borda da caixa de diálogo
+        pygame.draw.rect(
+            tela,
+            (180, 180, 200),
+            (70, 280, 820, 210),
+            3,
+            border_radius=12
+        )
 
         fonte = pygame.font.Font(None, 32)
 
@@ -271,7 +634,7 @@ class CutsceneGrad05:
              cor_nome
            )
            
-            tela.blit(texto_nome, (100, 200))
+            tela.blit(texto_nome, (100, 295))
 
         if nome == "NARRADOR":
             cor_texto = (200, 200, 210)
@@ -304,10 +667,11 @@ class CutsceneGrad05:
                 cor_texto
            )
 
-            tela.blit(texto, (100, 250 + i * 40))
+            tela.blit(texto, (100, 330 + i * 32))
 
         fonte_avanco = pygame.font.Font(None, 24)
 
+        # Avanço da cutscene
         texto_avanco = fonte_avanco.render(
             "APERTE A TECLA ESPAÇO PARA PROSSEGUIR",
             True,
@@ -318,7 +682,7 @@ class CutsceneGrad05:
             texto_avanco,
             texto_avanco.get_rect(
                 right=tela.get_width() - 90,
-                top=465
+                top=505
             )
         )
 

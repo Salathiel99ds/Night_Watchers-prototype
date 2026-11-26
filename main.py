@@ -1,10 +1,12 @@
+# Bibliotecas Pygame para Night Watchers
 import pygame 
 from game_over import TelaMorte
 from tela_vitoria import TelaVitoria 
 from tela_tutorial import TelaTutorial
 from tela_start import TelaStart
-from jogador import Jogador
+from personagens.jogador import Jogador 
 from mapa import Mapa
+from Cutscenes.Cut_scene_grad05 import CutsceneGrad05
 
 class Jogo:
     def __init__(self):
@@ -17,11 +19,17 @@ class Jogo:
         self.rodando = True
         self.estado = "menu"
 
+        # inicialização das funções
         self.fonte = pygame.font.SysFont("Arial", 36)
         self.tela_morte = TelaMorte()
         self.tela_vitoria = TelaVitoria() 
         self.tela_tutorial = TelaTutorial()
         self.tela_start = TelaStart()
+
+        # Cutscenes
+        self.cutscene_grad05 = CutsceneGrad05()
+        self.cutscene_grad05_iniciada = False
+
         self.jogador = Jogador(464, 254)
         self.mapa = Mapa()
         self.obstaculos = self.mapa.obstaculos
@@ -60,6 +68,12 @@ class Jogo:
                         self.estado = "tutorial"
                     elif acao == "sair":
                         self.rodando = False
+
+                elif self.estado == "cutscene_grad05":
+                    self.cutscene_grad05.processar_evento(evento)
+
+                    if self.cutscene_grad05.finalizada:
+                        self.estado = "inicio"
 
                 elif evento.type == pygame.KEYDOWN:
                     if self.estado == "tutorial":
@@ -117,6 +131,9 @@ class Jogo:
 
             elif self.estado == "vitoria":
                 self.tela_vitoria.desenhar(self.tela)
+
+            elif self.estado =="cutscene_grad05":
+                self.cutscene_grad05.desenhar(self.tela)
 
             else:
                 teclas = pygame.key.get_pressed()
@@ -248,6 +265,10 @@ class Jogo:
                         
                         self.jogador.posicao.x = 16
                         self.jogador.posicao.y = 350
+
+                        if not self.cutscene_grad05_iniciada:
+                            self.cutscene_grad05_iniciada = True
+                            self.estado = "cutscene_grad05"
 
                 elif self.mapa.nome == "grad05":
                     # Grad05 -> corredor 2

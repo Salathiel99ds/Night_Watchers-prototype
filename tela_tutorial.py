@@ -1,5 +1,5 @@
 import pygame
-from jogador import Jogador
+from personagens.jogador import Jogador
 
 
 class TelaTutorial:
