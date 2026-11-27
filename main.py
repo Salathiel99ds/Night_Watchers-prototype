@@ -7,6 +7,7 @@ from tela_start import TelaStart
 from personagens.jogador import Jogador 
 from mapa import Mapa
 from Cutscenes.Cut_scene_grad05 import CutsceneGrad05
+from Marco_Zero import MarcoZero
 
 class Jogo:
     def __init__(self):
@@ -29,6 +30,9 @@ class Jogo:
         # Cutscenes
         self.cutscene_grad05 = CutsceneGrad05()
         self.cutscene_grad05_iniciada = False
+
+        # Batalha do Marco Zero
+        self.marco_zero = MarcoZero(self.tela)
 
         self.jogador = Jogador(464, 254)
         self.mapa = Mapa()
@@ -73,7 +77,7 @@ class Jogo:
                     self.cutscene_grad05.processar_evento(evento)
 
                     if self.cutscene_grad05.finalizada:
-                        self.estado = "inicio"
+                        self.estado = "marco_zero"
 
                 elif evento.type == pygame.KEYDOWN:
                     if self.estado == "tutorial":
@@ -134,6 +138,10 @@ class Jogo:
 
             elif self.estado =="cutscene_grad05":
                 self.cutscene_grad05.desenhar(self.tela)
+
+            elif self.estado == "marco_zero":
+                self.marco_zero.atualizar(dt)
+                self.marco_zero.desenhar()
 
             else:
                 teclas = pygame.key.get_pressed()
